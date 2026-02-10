@@ -59,3 +59,15 @@ print(shutil.disk_usage(TestPath))
   
 # print(scandir(TestPath))  # path size in bytes
 # endregion Variante mit pathlib und itertools modul UPDATE 10.02.2026 
+
+# Source - https://stackoverflow.com/a/57134202
+# Posted by Waket Zheng, modified by community. See post 'Timeline' for change history
+# Retrieved 2026-02-10, License - CC BY-SA 4.0
+
+from pathlib import Path
+
+def get_size(folder: str) -> int:
+    return sum(p.stat().st_size for p in Path(folder).rglob('*'))
+
+print(get_size(TestPath))
+
