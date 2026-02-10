@@ -39,3 +39,4 @@ Diese Datgeisystemanalyse in Python ist ein konsolenbasiertes Python-Tool, das e
 3. filter.py (Filter/Suche)
 4. cleanup.py (Löschen + Bestätigung + Dry-Run-Flow)
 5. report.py (Report + Export)
+6. utils.py (wiederverwendbare funktionen)
