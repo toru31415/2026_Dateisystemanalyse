@@ -9,8 +9,6 @@ import shutil
 TestPath = "/home/fon/Documents/"
 print(shutil.disk_usage(TestPath))
 
-Test
-
 # endregion Funktion mit shutil  END UPDATE 10.02.2026  
 
 # region Variante mit os modul UPDATE 10.02.2026 
