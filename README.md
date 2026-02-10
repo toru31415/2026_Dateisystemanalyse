@@ -20,12 +20,12 @@ Diese Datgeisystemanalyse in Python ist ein konsolenbasiertes Python-Tool, das e
 
 ---
 
-## Ablauf (Wizard)
+## Ablauf
 
-1. Programm starten und Pfad eingeben  
+1. Programm starten und Pfad eingeben.  
 2. Scan läuft und gibt einen Report aus (Übersicht + Top-Liste)  
 3. Abfrage: **Filtern/Suchen?** → Ergebnisse werden angezeigt  
 4. Abfrage: **Dateien löschen?** (Trefferliste, sonst Top-Liste)  
    - Auswahl der Dateien
-   - Dry-Run (Vorschau)
-   - Optional: wirklich löschen (doppelte Bestätigung)
+   - Dry-Run (nur als Vorschau)
+   - wirklich löschen (doppelte Bestätigung)
