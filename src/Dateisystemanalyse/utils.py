@@ -1,7 +1,7 @@
 # Enthält wiederverwendbare Funktionen.
 
 # region function -> create_testfile UPDATE 17.02.2026 
-from . import os
+from os import os
 def create_testfile(name, size): # Source - https://stackoverflow.com/a/8816144
     file = open(name, "wb")
     file.seek(size-1)
