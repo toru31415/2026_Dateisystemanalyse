@@ -34,9 +34,9 @@ Diese Dateisystemanalyse in Python ist ein konsolenbasiertes Python-Tool, das ei
 
 ## Files und deren Inhalt
 
-1. scan.py (Scan + Datamodelle)
-2. top10.py (Top-N)
-3. filter.py (Filter/Suche)
-4. cleanup.py (Löschen + Bestätigung + Dry-Run-Flow)
-5. report.py (Report + Export)
-6. utils.py (wiederverwendbare funktionen)
+1. Scan.py (Scan + Datamodelle)
+2. Top10.py (Top-N)
+3. Filter.py (Filter/Suche)
+4. Cleanup.py (Löschen + Bestätigung + Dry-Run-Flow)
+5. Report.py (Report + Export)
+6. Utils.py (wiederverwendbare funktionen)
