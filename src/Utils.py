@@ -1,34 +1,25 @@
-# Enthält wiederverwendbare Funktionen.
+#region Description
+# --------------------------------------------------------------------
+# In dieser Datei sind Hilfsfunktionen, die mehrere andere Dateien nutzen.
+# -> Pfade sauber einlesen
+# -> Bytes in GB umrechnen
+# -> Zeitstempel erstellen
+# -> Ja/Nein-Fragen in der Konsole
+# -> Reports-Ordner sicherstellen
+# --------------------------------------------------------------------
+#endregion Description
 
-# region function -> create_testfile UPDATE 17.02.2026 
-from os import os
-def create_testfile(name, size): # Source - https://stackoverflow.com/a/8816144
-    file = open(name, "wb")
-    file.seek(size-1)
-    file.write(b"\0")
-    file.close()
-    print(os.stat(name).st_size)
-# endregion function -> create_testfile UPDATE 17.02.2026 
 
-# region function -> et_size UPDATE 17.02.2026 
-from pathlib import Path
-def get_size(folder: str) -> int:
-    return sum(p.stat().st_size for p in Path(folder).rglob('*'))
-# endregion function -> et_size UPDATE 17.02.2026 
+#region import
+from pathlib import Path                                                                # Vereinfacht die Pfadangabe im Code. Beispiel: pfad = "C:\\Users\\Jemand" vs pfad = Path(r"C:\Users\Jemand")
+from datetime import datetime                                                           # datetime braucht man für Datum/Uhrzeit im Report-Namen
+#endregion Description
 
-# region function -> get_file_sha256 UPDATE 17.02.2026 
-from sys import argv
-from hashlib import sha256
-def get_file_sha256(file):
-    # Construct an sha256 algorith
-    h256 = sha256()
 
-    # Get the name of the file we want to hash
-    fname = file
-
-    # Read the contents of the file into the hash algorithm
-    h256.update(open(fname,'rb').read())
-
-    # Print the digest/hash of the file's contents
-    print (h256.hexdigest())
-# endregion function -> get_file_sha256 UPDATE 17.02.2026 
+#region Function | pfad_aus_input
+def pfad_aus_input(text):                                                               # Diese Funktion nimmt die Benutzereingabe (String) und macht daraus einen Path.
+    text = text.strip()                                                                 # entfernt Leerzeichen vorne/hinten
+    text = text.strip('"')                                                              # entfernt doppelte Anführungszeichen
+    text = text.strip("'")                                                              # entfernt einfache Anführungszeichen
+    return Path(text)                                                                   # gibt einen Path zurück
+#endregion Function | pfad_aus_input
