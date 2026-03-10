@@ -14,10 +14,10 @@ from pathlib import Path
 
 
 #region Function | analyse_starten
-def analyse_starten(pfad="None"):
+def analyse_starten(pfad = None):
     print("\n============= Dateisystemanalyse starten =============")
     start_pfad = pfad                                                                           # Pfad übergeben, wenn es via funktion mitgegeben wurde.
-    if (pfad == "None"):                                                                        # Kontrolle, ob ein Pfad beim Aufrufen mitgegeben wurde.
+    if (pfad is None):                                                                        # Kontrolle, ob ein Pfad beim Aufrufen mitgegeben wurde.
         while True:                                                                             # Solange kein gültiger Pfad eingegeben wird, wird die Frage wiederholt.
             eingabe = input("\nBitte einen Ordnerpfad eingeben (z.B. C:\\Users\\...): ")        # Fragt nach der Eingabe eines Pfades.
             start_pfad = pfad_aus_input(eingabe)                                                # Übergibt die "eingabe" der Funktion: "pfad_aus_input" und speichert den Rückgabewert in der "start_pfad" Variable.
@@ -65,33 +65,39 @@ def scan_ordner(start_pfad):
 
 #region Function | rekursiver_scan
 def rekursiver_scan(aktueller_ordner, start_pfad, resultat):                                    # Diese Funktion durchsucht den aktuellen Ordner und ruft sich bei einem Unterordner erneut auf. Falls es keinen Unterordner mehr gibt, wird die Funktion beendet.
-    try:
+    try:    
         for objekt in aktueller_ordner.iterdir():                                               # Mit .iterdir werden alle Order und Dateien im angegebenen Pfad durch iteriert und als Eintrag in der Variable "Objekt" als Pfad gespeichert"
+            try: 
+                if objekt.is_dir():                                                             # Wenn das aktuelle "Objekt" ein Ordner ist, 
+                    resultat["anzahl_ordner"] += 1                                              # ...wird der Zähler um eins erhöht
+                    rekursiver_scan(objekt, start_pfad, resultat)                               # ...und für den neuen Ordner wird die Funktion erneut rekursiv aufgerufen.
 
-            if objekt.is_dir():                                                                 # Wenn das aktuelle "Objekt" ein Ordner ist, 
-                resultat["anzahl_ordner"] += 1                                                  # ...wird der Zähler um eins erhöht
-                rekursiver_scan(objekt, start_pfad, resultat)                                   # ...und für den neuen Ordner wird die Funktion erneut rekursiv aufgerufen.
+                elif objekt.is_file():                                                          # Wenn das aktuelle "Objekt" ein File ist,
+                    resultat["anzahl_dateien"] += 1                                             # ...wird der Zähler um eins erhöht.
 
-            elif objekt.is_file():                                                              # Wenn das aktuelle "Objekt" ein File ist,
-                resultat["anzahl_dateien"] += 1                                                 # ...wird der Zähler um eins erhöht.
+                    grösse_in_bytes = objekt.stat().st_size                                     # .stat ist teil des pathlib moduls und holt die Dateiinformationen vom Betriebssystem. in diesem Fall wird mit .st_size die Dateigrösse in Bytes genommen
+                    resultat["gesamt_bytes"] += grösse_in_bytes                                 # grösse in bytes zum resultat dazuzählen (für die Gesammtgrösse)
 
-                grösse_in_bytes = objekt.stat().st_size                                         # .stat ist teil des pathlib moduls und holt die Dateiinformationen vom Betriebssystem. in diesem Fall wird mit .st_size die Dateigrösse in Bytes genommen
-                resultat["gesamt_bytes"] += grösse_in_bytes                                     # grösse in bytes zum resultat dazuzählen (für die Gesammtgrösse)
+                    rel_pfad = str(objekt.relative_to(start_pfad))                              # Mit .relative_to wird aus dem Pfad des aktuellen Dateipfads in der Variable "objekt", ein relativer Pfad, bezogen auf den Startpfad, erstellt und in die neue Variabel gespeichert.
 
-                rel_pfad = str(objekt.relative_to(start_pfad))                                  # Mit .relative_to wird aus dem Pfad des aktuellen Dateipfads in der Variable "objekt", ein relativer Pfad, bezogen auf den Startpfad, erstellt und in die neue Variabel gespeichert.
+                    dateiendung = objekt.suffix.lower() if objekt.suffix else "(keine)"         # Speichert die Dateiendung (.pdf oder .jpg) in die "dateiendung" Variable. Falls es keine Endung gibt...was bei pathlib sein kann, wird mit "(keine)" ergänzt, um beim Filter damit arbeiten zu können.
 
-                dateiendung = objekt.suffix.lower() if objekt.suffix else "(keine)"             # Speichert die Dateiendung (.pdf oder .jpg) in die "dateiendung" Variable. Falls es keine Endung gibt...was bei pathlib sein kann, wird mit "(keine)" ergänzt, um beim Filter damit arbeiten zu können.
-
-                resultat["dateien"].append({                                                    # Die gesammelten Dateiinfos werden unter dem Dict Key "dateien" als Liste gespeichert.
-                    "abspfad": str(objekt),                                                     # Absoluter Pfad um den genauen Ort der Datei zu kennen
-                    "relpfad": rel_pfad,                                                        # Relativer Pfad um die ausgabe übersichtlicher zu machen
-                    "dateiname": objekt.name,                                                   # Dateiname mit Endung für weitere Verarbeitung
-                    "dateiendung": dateiendung,                                                 # Dateiendung für weitere Verarbeitung
-                    "bytes": grösse_in_bytes                                                    # Dateigrösse in bytes für weitere Verarbeitung
-                })
+                    resultat["dateien"].append({                                                # Die gesammelten Dateiinfos werden unter dem Dict Key "dateien" als Liste gespeichert.
+                        "abspfad": str(objekt),                                                 # Absoluter Pfad um den genauen Ort der Datei zu kennen
+                        "relpfad": rel_pfad,                                                    # Relativer Pfad um die ausgabe übersichtlicher zu machen
+                        "dateiname": objekt.name,                                               # Dateiname mit Endung für weitere Verarbeitung
+                        "dateiendung": dateiendung,                                             # Dateiendung für weitere Verarbeitung
+                        "bytes": grösse_in_bytes                                                # Dateigrösse in bytes für weitere Verarbeitung
+                    })
+            except PermissionError:                                                             # Keine Berechtigung auf dieses File.
+                resultat["fehler"].append(f"Kein Zugriff: {objekt}")
+            except FileNotFoundError:                                                           # File konnte nicht gefunden werden.
+                resultat["fehler"].append(f"Nicht gefunden: {objekt}")
+            except OSError:                                                                     # Allgemeine Fehler
+                resultat["fehler"].append(f"Fehler beim Lesen: {objekt}")
     except PermissionError:                                                                     # Keine Berechtigung auf diesen Ordner.
         resultat["fehler"].append(f"Kein Zugriff: {aktueller_ordner}")
-    except FileNotFoundError:                                                                   # File konnte nicht gefunden werden.
+    except FileNotFoundError:                                                                   # Ordner konnte nicht gefunden werden.
         resultat["fehler"].append(f"Nicht gefunden: {aktueller_ordner}")
     except OSError:                                                                             # Allgemeine Fehler
         resultat["fehler"].append(f"Fehler beim Lesen: {aktueller_ordner}")
