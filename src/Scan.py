@@ -14,10 +14,10 @@ from pathlib import Path
 
 
 #region Function | analyse_starten
-def analyse_starten(pfad = None):
+def analyse_starten(pfad):
     print("\n============= Dateisystemanalyse starten =============")
     start_pfad = pfad                                                                           # Pfad übergeben, wenn es via funktion mitgegeben wurde.
-    if (pfad is None):                                                                        # Kontrolle, ob ein Pfad beim Aufrufen mitgegeben wurde.
+    if (pfad):                                                                                  # Kontrolle, ob ein Pfad beim Aufrufen mitgegeben wurde.
         while True:                                                                             # Solange kein gültiger Pfad eingegeben wird, wird die Frage wiederholt.
             eingabe = input("\nBitte einen Ordnerpfad eingeben (z.B. C:\\Users\\...): ")        # Fragt nach der Eingabe eines Pfades.
             start_pfad = pfad_aus_input(eingabe)                                                # Übergibt die "eingabe" der Funktion: "pfad_aus_input" und speichert den Rückgabewert in der "start_pfad" Variable.

@@ -34,6 +34,17 @@ def zeitstempel():                                                              
     return datetime.now().strftime("%Y-%m-%d_%H-%M-%S")                                 # Nimmt die aktuelle Zeit. strtime wandelt die Ermittelte Zeit in einen String um.
 #endregion Function | zeitstempel
 
+#endregion Function | frage
+def frage(frage):                                                                       # Die Funktion prüft die eingabe auf j/n oder Ja/nein.
+    while True:                                                                         # Schleife, solange eine Falsche eingabe erfolgt.
+        antwort = input(frage).strip().lower()                                          # Fragt nach einer Eingabe und entfernt die leerschläge vorne und hinten und macht die Zeichen klein.
+        if antwort in ["j", "ja"]:
+            return True                                                                 # Falls j oder ja eingegeben wird, wird die schleife verlassen und True zurückgegeben.
+        if antwort in ["n", "nein"]:
+            return False                                                                # Falls n oder nein eingegeben wird, wird die schleife verlassen und False zurückgegeben.
+        print("Bitte nur 'j' oder 'n' eingeben.")
+#endregion Function | frage
+
 #region Function | tabelle_formatieren
 def tabelle_formatieren (daten):                                                        # Diese Funktion wird verwendet um die Tabellen schön zu formatieren und danach wieder zurückzugeben.
     spalten = []
