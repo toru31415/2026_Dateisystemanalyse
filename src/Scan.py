@@ -14,22 +14,20 @@ from pathlib import Path
 
 
 #region Function | analyse_starten
-def analyse_starten(pfad = None):
+def analyse_starten():
     print("\n============= Dateisystemanalyse starten =============")
-    start_pfad = pfad                                                                           # Pfad übergeben, wenn es via funktion mitgegeben wurde.
-    if (pfad is None):                                                                                  # Kontrolle, ob ein Pfad beim Aufrufen mitgegeben wurde.
-        while True:                                                                             # Solange kein gültiger Pfad eingegeben wird, wird die Frage wiederholt.
-            eingabe = input("\nBitte einen Ordnerpfad eingeben (z.B. C:\\Users\\...): ")        # Fragt nach der Eingabe eines Pfades.
-            start_pfad = pfad_aus_input(eingabe)                                                # Übergibt die "eingabe" der Funktion: "pfad_aus_input" und speichert den Rückgabewert in der "start_pfad" Variable.
+    while True:                                                                             # Solange kein gültiger Pfad eingegeben wird, wird die Frage wiederholt.
+        eingabe = input("\nBitte einen Ordnerpfad eingeben (z.B. C:\\Users\\...): ")        # Fragt nach der Eingabe eines Pfades.
+        start_pfad = pfad_aus_input(eingabe)                                                # Übergibt die "eingabe" der Funktion: "pfad_aus_input" und speichert den Rückgabewert in der "start_pfad" Variable.
 
-            if not start_pfad.exists():                                                         # Prüft ob der pfad nicht existiert.Wenn "True", dann...(Muss ein Ordner oder eine Datei sein)
-                print("Dieser Pfad existiert nicht!")                                           # Wenn der Pfad nicht exisitiert, wird eine Meldung ausgegeben.
-                continue
+        if not start_pfad.exists():                                                         # Prüft ob der pfad nicht existiert.Wenn "True", dann...(Muss ein Ordner oder eine Datei sein)
+            print("Dieser Pfad existiert nicht!")                                           # Wenn der Pfad nicht exisitiert, wird eine Meldung ausgegeben.
+            continue
 
-            if not start_pfad.is_dir():                                                         # Prüft ob der pfad keine Datei ist...Wenn "True", dann...(Muss ein Ordner sein und keine Datei)
-                print("Der Pfad muss ein Ordner sein!")                                         # Wenn der Pfad eine Datei und kein Ordner ist, wird eine Meldung ausgegeben.
-                continue
-            break
+        if not start_pfad.is_dir():                                                         # Prüft ob der pfad keine Datei ist...Wenn "True", dann...(Muss ein Ordner sein und keine Datei)
+            print("Der Pfad muss ein Ordner sein!")                                         # Wenn der Pfad eine Datei und kein Ordner ist, wird eine Meldung ausgegeben.
+            continue
+        break
 
     print("\nDer Scan läuft... bitte warten.")                                                  # Die Meldung "Scan läuft" wird angezeigt, damit man weiss, dass etwas passiert.
     scan_ergebnis = scan_ordner(start_pfad)                                                     # Scannt die Dateien: Die Variable "start_pfad" wird der Funktion "scan_ordner" aus dem Modul Scan übergeben und das Ergebnis des Scans in der neuen Variabel gespeichert
