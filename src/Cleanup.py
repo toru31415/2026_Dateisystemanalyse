@@ -55,7 +55,7 @@ def löschvorgang_starten(quelle):
     print("\n".join(tabelle_formatieren(quelle)))                                                       # Die gewählte Liste wird vollständig ausgegeben, um auch jedes element auswählen zu können.
 
     while True:
-        nummern = input("\nWelche Nummern löschen? (z.B. 1,3,5) oder leer = abbrechen: ").strip()       # Frage zur Auswahl der zu löschenden Daten.
+        nummern = input("\nWelche Nummern löschen? (z.B. 1,3,5 oder leer = abbrechen): ").strip()       # Frage zur Auswahl der zu löschenden Daten.
         if not nummern:                                                                                 # Falls keine Nummern ausgewählt werden, gehts zurück zum hauptmenü.
             print("Der Vorgang wird abgebrochen und es werden keine Daten gelöscht.")
             return
