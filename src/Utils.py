@@ -28,7 +28,7 @@ def pfad_aus_input(text):                                                       
 #region Function | umrechnung_gb
 def umrechnung_gb(bytes_wert):
     gb = bytes_wert / (1024 ** 3)                                                       # Wandelt Bytes in Gigabyte um (1 GB sind 1024^3 Bytes).
-    return f"{gb:.2f} GB"                                                               # Formatiert die Gigabyte Zahl mit 2 Nachkommastellen und erweitert die Ausgabe mit der Einheit.
+    return f"{gb:.3f} GB"                                                               # Formatiert die Gigabyte Zahl mit 2 Nachkommastellen und erweitert die Ausgabe mit der Einheit.
 #endregion Function | umrechnung_gb
 
 #region Function | zeitstempel

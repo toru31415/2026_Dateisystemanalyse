@@ -10,6 +10,7 @@ from Utils import pfad_aus_input
 from Top10 import top_10_dateien
 from Report import report_erstellen,report_speichern
 from pathlib import Path
+import re
 #endregion Import
 
 
@@ -61,6 +62,14 @@ def scan_ordner(start_pfad):
         "dateien": []                                                                           # Liste aller Dateien
     }
     rekursiver_scan(start_pfad, start_pfad, resultat)                                           # startet die Funktion mit dem rekursiven Scan.
+
+    resultat["dateien"] = sorted(                                                               # Sortiert die komplette Dateiliste neu, damit die Ausgabe übersichtlicher wird.
+    resultat["dateien"],                                                                        # Nimmt die Liste mit allen gescannten Dateien aus dem Key "dateien" im Dictionary "resultat".
+    key=lambda d: (                                                                             # Definiert, nach welchen Werten sortiert werden soll.
+        str(Path(d["relpfad"]).parent).lower(),                                                 # Sortiert zuerst nach dem relativen Ordnerpfad.
+        [int(teil) if teil.isdigit() else teil.lower()                                          # Sortiert danach den Dateinamen natürlich - Zahlen werden als echte Zahlen behandelt und Text wird klein geschrieben.
+         for teil in re.split(r"(\d+)", d["dateiname"])]                                        # Zerlegt den Dateinamen in Text- und Zahlenteile.
+    ))
 
     return resultat                                                                             # Gibt das Dict an die Variable scan-result im Main file zurück.
 #endregion Function | scan_ordner
