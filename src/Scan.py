@@ -20,6 +20,10 @@ def analyse_starten():
         eingabe = input("\nBitte einen Ordnerpfad eingeben (z.B. C:\\Users\\...): ")            # Fragt nach der Eingabe eines Pfades.
         start_pfad = pfad_aus_input(eingabe)                                                    # Übergibt die "eingabe" der Funktion: "pfad_aus_input" und speichert den Rückgabewert in der "start_pfad" Variable.
 
+        if start_pfad is None:                                                                  # Pfüft ob ein Pfad eingegeben wurde.
+            print("Bitte einen Pfad eingeben!")                                                 # Falls die Eingabe Leer ist, wird eine Meldung ausgegeben.
+            continue
+
         if not start_pfad.exists():                                                             # Prüft ob der pfad nicht existiert.Wenn "True", dann...(Muss ein Ordner oder eine Datei sein)
             print("Dieser Pfad existiert nicht!")                                               # Wenn der Pfad nicht exisitiert, wird eine Meldung ausgegeben.
             continue

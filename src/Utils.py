@@ -20,6 +20,8 @@ def pfad_aus_input(text):                                                       
     text = text.strip()                                                                 # entfernt Leerzeichen vorne/hinten
     text = text.strip('"')                                                              # entfernt doppelte Anführungszeichen
     text = text.strip("'")                                                              # entfernt einfache Anführungszeichen
+    if not text:                                                                        # Falls die Variabel "Text" Leer ist, wird None zurückgegeben.
+        return None                                                                     # entfernt einfache Anführungszeichen
     return Path(text)                                                                   # gibt einen Path zurück
 #endregion Function | pfad_aus_input
 
@@ -53,7 +55,7 @@ def tabelle_formatieren (daten):                                                
     position_weite = max(len("Position"), len(str(len(daten))))                                                          # Speichert den grösseren Wert von max(a, b) in der Variabel.
     grösse_gb_weite = max(len("Dateigrösse"), max(len(i) for i in umrechnung_gb_daten))                                  # Speichert den grösseren Wert von max(a, b) in der Variabel und nimmt beim zweiten max() die länge des längsten Objekts in "umrechnung_gb_daten".
     dateinamen_weite = max(len("Dateiname"), max(len(d["dateiname"]) for d in daten))                                    # Speichert den grösseren Wert von max(a, b) in der Variabel und nimmt beim zweiten max() die länge des längsten Objekts im Key "dateiname".
-    relativerpfad_weite = max(len("Relativer Pfad"), max(len(str(Path(d["relpfad"]).parent)) for d in daten))            # Speichert den grösseren Wert von max(a, b) in der Variabel und nimmt beim zweiten max() die länge des längsten Objekts im Key "relpfad" ohne den Dateinamen.
+    relativerpfad_weite = max(len("Relativer Pfad zum Startpfad"), max(len(str(Path(d["relpfad"]).parent)) for d in daten))            # Speichert den grösseren Wert von max(a, b) in der Variabel und nimmt beim zweiten max() die länge des längsten Objekts im Key "relpfad" ohne den Dateinamen.
 
     spalten.append(f"{"Position":<{position_weite}} | {"Dateigrösse":<{grösse_gb_weite}} | {"Dateiname":<{dateinamen_weite}} | {"Relativer Pfad zum Startpfad":<{relativerpfad_weite}}")        # linksbündige Kopfzeile mit den definierten Weiten (mit leerzeichen gefüllt).
     spalten.append(f"{"-"*position_weite}-+-{"-"*grösse_gb_weite}-+-{"-"*dateinamen_weite}-+-{"-"*relativerpfad_weite}")                                                                        # Erzeugt die dazu passende Trennlinie.
